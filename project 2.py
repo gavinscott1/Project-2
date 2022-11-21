@@ -109,6 +109,9 @@ def lightning(drop_positions):
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
     ]
 
+#def cloudy(weather):
+
+
     rain_chance = random.randint(1,3)
     lightning_chance = random.randint(1,6)
     cloud_df = pd.DataFrame(cloud_data)
@@ -149,77 +152,78 @@ def lightning(drop_positions):
         cloud_df.iloc[lightning_pattern[-i][0],lightning_pattern[-i][1]] = lc
     return [drop_position, cloud_df]
 
-start_time = dt.strftime(dt.now(),'%X')     #when program is started
-END_TIME = '22:00:00'   #arbitrary end time at 10pm
-FMT = '%H:%M:%S'        #format of time in calculations
+def main():
+    start_time = dt.strftime(dt.now(),'%X')     #when program is started
+    END_TIME = '22:00:00'   #arbitrary end time at 10pm
+    FMT = '%H:%M:%S'        #format of time in calculations
 
-time_difference = dt.strptime(END_TIME, FMT) - dt.strptime(start_time, FMT)
-NOC = 50   #max of 50 daily api checks
-check_interval = time_difference.total_seconds()/NOC   #maximize how much data we get by utilizing all 50 checks throughout the day
+    time_difference = dt.strptime(END_TIME, FMT) - dt.strptime(start_time, FMT)
+    NOC = 50   #max of 50 daily api checks
+    check_interval = time_difference.total_seconds()/NOC   #maximize how much data we get by utilizing all 50 checks throughout the day
 
-check_interval = 5  #delete when program is done
+    check_interval = 5  #delete when program is done
 
-while True:
-    KEY = 52479 #for calgary
-    weather_icon = 15
-    start = dt.strftime(dt.now(),'%X')
-    print(weather_icon)
-    if weather_icon in rainy_in:
-        while True:     #each while loop runs for set duration of time then the weather is checked again
-            current = dt.strftime(dt.now(),'%X')
-            delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
-            print(delta.total_seconds())
+    while True:
+        KEY = 52479 #for calgary
+        weather_icon = 15
+        start = dt.strftime(dt.now(),'%X')
+        print(weather_icon)
+        if weather_icon in rainy_in:
+            while True:     #each while loop runs for set duration of time then the weather is checked again
+                current = dt.strftime(dt.now(),'%X')
+                delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
+                print(delta.total_seconds())
 
-            if delta.total_seconds() == 0 :
-                drop_position = []
-            else:
-                drop_position = data[0] 
+                if delta.total_seconds() == 0 :
+                    drop_position = []
+                else:
+                    drop_position = data[0] 
 
-            data = precipitation(drop_positions=drop_position, weather='rain')
+                data = precipitation(drop_positions=drop_position, weather='rain')
 
-            simulator.show(data[1], random.randint(1,3))
-            if delta.total_seconds() >= check_interval:
-                break
-    elif weather_icon in snowy_in:
-        while True:
-            current = dt.strftime(dt.now(),'%X')
-            delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
-            print(delta.total_seconds())
+                simulator.show(data[1], random.randint(1,3))
+                if delta.total_seconds() >= check_interval:
+                    break
+        elif weather_icon in snowy_in:
+            while True:
+                current = dt.strftime(dt.now(),'%X')
+                delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
+                print(delta.total_seconds())
 
-            if delta.total_seconds() == 0:
-                drop_position = []
-            else:
-                drop_position = data[0] 
+                if delta.total_seconds() == 0:
+                    drop_position = []
+                else:
+                    drop_position = data[0] 
 
-            data = precipitation(drop_positions=drop_position, weather='snow')
+                data = precipitation(drop_positions=drop_position, weather='snow')
 
-            simulator.show(data[1], random.randint(1,3))
-            if delta.total_seconds() >= check_interval:
-                break
-    elif weather_icon in thunder_in:
-        while True:
-            current = dt.strftime(dt.now(),'%X')
-            delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
-            print(delta.total_seconds())
+                simulator.show(data[1], random.randint(1,3))
+                if delta.total_seconds() >= check_interval:
+                    break
+        elif weather_icon in thunder_in:
+            while True:
+                current = dt.strftime(dt.now(),'%X')
+                delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
+                print(delta.total_seconds())
 
-            if delta.total_seconds() == 0:
-                drop_position = []
-            else:
-                drop_position = data[0] 
+                if delta.total_seconds() == 0:
+                    drop_position = []
+                else:
+                    drop_position = data[0] 
 
-            data = lightning(drop_positions=drop_position)
+                data = lightning(drop_positions=drop_position)
 
-            simulator.show(data[1], random.randint(1,3))
-            if delta.total_seconds() >= check_interval:
-                break
-    elif weather_icon in cloudy_in:
-        print('cloudy')
-        time.sleep(check_interval)
-    elif weather_icon in night_in:
-        print('night')
-        time.sleep(check_interval)
-    else:
-        print('sunny')  #everything else set as sunny for now
-        time.sleep(check_interval)
-#Hello
-#again
+                simulator.show(data[1], random.randint(1,3))
+                if delta.total_seconds() >= check_interval:
+                    break
+        elif weather_icon in cloudy_in:
+            print('cloudy')
+            time.sleep(check_interval)
+        elif weather_icon in night_in:
+            print('night')
+            time.sleep(check_interval)
+        else:
+            print('sunny')  #everything else set as sunny for now
+            time.sleep(check_interval)
+
+main()
