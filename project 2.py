@@ -5,6 +5,7 @@ import simulator
 import random
 from datetime import datetime as dt
 import time
+import UCNanoleaf as NL
 
 def currentweather(location_key):
     current="http://dataservice.accuweather.com/currentconditions/v1/"+str(location_key)+"?apikey=ddqK3u8d29p6wOlGm1YlIA1NUQH2rWoY"
@@ -14,10 +15,6 @@ def currentweather(location_key):
     
     df = pd.json_normalize(data)
     weather_icon = df["WeatherIcon"].values
-    return(weather_icon)
-
-def api_check():
-    weather_icon = random.choice([15,12,19])
     return(weather_icon)
 
 def precipitation(drop_positions, weather):
@@ -147,6 +144,45 @@ def cloudy(weather):
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
     ]
+def sunny(rays):
+    bg = (77, 180, 227)           #background colour
+    sun = (247, 207, 7)       #sun colour
+    sun_accent = (247, 163, 7)      #sun accent colour
+    if rays == 1:
+        sunny_data = [              #sets initial colours of each triangle
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,sun,bg,bg,bg,bg,bg,bg,bg,sun,sun_accent,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,sun_accent,sun,bg,sun,sun,bg,bg,sun,sun,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,sun,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,sun,bg,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun_accent,sun,bg,bg],
+            [bg,bg,sun_accent,sun,sun,sun,sun,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,sun,sun,sun,sun,sun,sun,sun,sun,sun,bg,sun,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,sun,sun,sun,sun,sun_accent,sun,sun,sun,sun,sun,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,sun,sun,bg,bg,sun,sun,bg,sun_accent,sun,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,sun,sun_accent,bg,bg,bg,bg,bg,bg,bg,sun,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
+        ]
+        sunny_df = pd.DataFrame(sunny_data)
+        return sunny_df
+    elif rays == 2:
+        sunny_data = [              #sets initial colours of each triangle
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,sun_accent,sun,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,sun,sun,bg,bg,sun,sun,bg,sun,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,sun,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,bg,bg,sun,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun,bg,sun,sun_accent,bg,bg,bg,bg],
+            [bg,bg,bg,bg,sun,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,sun,sun,sun,sun,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,sun,sun,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,sun,bg,bg,bg,bg],
+            [bg,bg,bg,bg,sun,sun,bg,sun,sun,sun,sun,sun,sun,sun,sun,sun,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,sun_accent,bg,bg,sun,sun,sun,sun_accent,sun,sun,sun,sun,sun,sun_accent,sun,sun,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,sun,bg,sun,sun,bg,bg,sun,sun,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,sun_accent,sun,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
+        ]
+        sunny_df = pd.DataFrame(sunny_data)
+        return sunny_df
+
 def main():
     start_time = dt.strftime(dt.now(),'%X')     #when program is started
     END_TIME = '22:00:00'   #arbitrary end time at 10pm
@@ -173,7 +209,7 @@ def main():
 
     while True:
         KEY = 52479 #for calgary
-        weather_icon = 15
+        weather_icon = currentweather(KEY)
         start = dt.strftime(dt.now(),'%X')
         print(weather_icon)
         if weather_icon in rainy_in:
@@ -189,7 +225,7 @@ def main():
 
                 data = precipitation(drop_positions=drop_position, weather='rain')
 
-                simulator.show(data[1], random.randint(1,3))
+                NL.send(data[1], random.randint(1,3))
                 if delta.total_seconds() >= check_interval:
                     break
         elif weather_icon in snowy_in:
@@ -205,7 +241,7 @@ def main():
 
                 data = precipitation(drop_positions=drop_position, weather='snow')
 
-                simulator.show(data[1], random.randint(1,3))
+                NL.send(data[1], random.randint(1,3))
                 if delta.total_seconds() >= check_interval:
                     break
         elif weather_icon in thunder_in:
@@ -221,7 +257,7 @@ def main():
 
                 data = lightning(drop_positions=drop_position)
 
-                simulator.show(data[1], random.randint(1,3))
+                NL.send(data[1], random.randint(1,3))
                 if delta.total_seconds() >= check_interval:
                     break
         elif weather_icon in cloudy_in:
@@ -231,7 +267,17 @@ def main():
             print('night')
             time.sleep(check_interval)
         else:
-            print('sunny')  #everything else set as sunny for now
-            time.sleep(check_interval)
+            while True:
+                current = dt.strftime(dt.now(),'%X')
+                delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
+                print(delta.total_seconds())
+                data = sunny(rays=1)
+                simulator.show(data, random.randint(1,3))
+                time.sleep(3)               #sets a timer of three seconds between images
+                data = sunny(rays=2)
+                simulator.show(data, random.randint(1,3))
+                time.sleep(3)               #sets a timer of three seconds between images
+                if delta.total_seconds() >= check_interval:
+                    break
 
 main()
