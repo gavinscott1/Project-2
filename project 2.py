@@ -21,14 +21,6 @@ hot_in = [30]
 cold_in = [31]
 windy_in = [32]
 
-key=""
-def getLocation(countrycode,city):
-    search_address="http://dataservice.accuweather.com/locations/v1/cities/"+countrycode+"/search?apikey="+API+"&q="+city+"&details=true"
-    with urllib.request.urlopen(search_address) as search_address:
-        data=json.loads(search_address.read().decode())
-        location_key=data[0]['Key']
-        return(location_key)
-
 def currentweather(location_key):
     current="http://dataservice.accuweather.com/currentconditions/v1/"+str(location_key)+"?apikey=ddqK3u8d29p6wOlGm1YlIA1NUQH2rWoY"
     print(current)
@@ -37,10 +29,6 @@ def currentweather(location_key):
     
     df = pd.json_normalize(data)
     weather_icon = df["WeatherIcon"].values
-    return(weather_icon)
-
-def api_check():
-    weather_icon = random.choice([15,12,19])
     return(weather_icon)
 
 def precipitation(drop_positions, weather):
