@@ -19,7 +19,7 @@ def currentweather(location_key):
 
 def precipitation(drop_positions, weather):
     drop_position = drop_positions
-    bg = (159,159,159)          #background colour
+    bg = (116,87,222)          #background colour
     rain_drop = (86,158,209)    #rain drop colour
     snow_flake = (202,213,219)
     colour = (86,158,209)
@@ -62,7 +62,7 @@ def precipitation(drop_positions, weather):
     return [drop_position, cloud_df]
 
 def lightning(drop_positions):
-    bg = (159,159,159)          #background colour
+    bg = (116,87,222)          #background colour
     rain_drop = (86,158,209)    #rain drop colour
     drop_position = drop_positions         #list of lists for position of each drop
     lc = (245,232,49)           #lightning colour
@@ -144,6 +144,7 @@ def cloudy(weather):
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
     ]
+
 def sunny(rays):
     bg = (77, 180, 227)           #background colour
     sun = (247, 207, 7)       #sun colour
