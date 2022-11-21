@@ -149,6 +149,45 @@ def lightning(drop_positions):
         cloud_df.iloc[lightning_pattern[-i][0],lightning_pattern[-i][1]] = lc
     return [drop_position, cloud_df]
 
+def sunny(rays):
+    bg = (77, 180, 227)           #background colour
+    sun = (247, 207, 7)       #sun colour
+    sun_accent = (247, 163, 7)      #sun accent colour
+    if rays == 1:
+        sunny_data = [              #sets initial colours of each triangle
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,sun,bg,bg,bg,bg,bg,bg,bg,sun,sun_accent,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,sun_accent,sun,bg,sun,sun,bg,bg,sun,sun,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,sun,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,sun,bg,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun_accent,sun,bg,bg],
+            [bg,bg,sun_accent,sun,sun,sun,sun,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,sun,sun,sun,sun,sun,sun,sun,sun,sun,bg,sun,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,sun,sun,sun,sun,sun_accent,sun,sun,sun,sun,sun,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,sun,sun,bg,bg,sun,sun,bg,sun_accent,sun,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,sun,sun_accent,bg,bg,bg,bg,bg,bg,bg,sun,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
+        ]
+        sunny_df = pd.DataFrame(sunny_data)
+        return sunny_df
+    elif rays == 2:
+        sunny_data = [              #sets initial colours of each triangle
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,sun_accent,sun,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,sun,sun,bg,bg,sun,sun,bg,sun,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,sun,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,bg,bg,sun,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun,bg,sun,sun_accent,bg,bg,bg,bg],
+            [bg,bg,bg,bg,sun,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,sun,sun,sun,sun,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,sun,sun,sun_accent,sun,sun,sun,sun,sun,sun,sun,sun_accent,sun,sun,sun,bg,bg,bg,bg],
+            [bg,bg,bg,bg,sun,sun,bg,sun,sun,sun,sun,sun,sun,sun,sun,sun,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,sun_accent,bg,bg,sun,sun,sun,sun_accent,sun,sun,sun,sun,sun,sun_accent,sun,sun,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,sun,bg,sun,sun,bg,bg,sun,sun,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,sun_accent,sun,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+            [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
+        ]
+        sunny_df = pd.DataFrame(sunny_data)
+        return sunny_df
+
 start_time = dt.strftime(dt.now(),'%X')     #when program is started
 END_TIME = '22:00:00'   #arbitrary end time at 10pm
 FMT = '%H:%M:%S'        #format of time in calculations
@@ -219,7 +258,17 @@ while True:
         print('night')
         time.sleep(check_interval)
     else:
-        print('sunny')  #everything else set as sunny for now
-        time.sleep(check_interval)
+        while True:
+            current = dt.strftime(dt.now(),'%X')
+            delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
+            print(delta.total_seconds())
+            data = sunny(rays=1)
+            simulator.show(data, random.randint(1,3))
+            time.sleep(3)               #sets a timer of three seconds between images
+            data = sunny(rays=2)
+            simulator.show(data, random.randint(1,3))
+            time.sleep(3)               #sets a timer of three seconds between images
+            if delta.total_seconds() >= check_interval:
+                break
 #Hello
 #again
