@@ -6,29 +6,6 @@ import random
 from datetime import datetime as dt
 import time
 
-API='ddqK3u8d29p6wOlGm1YlIA1NUQH2rWoY'
-countrycode='CA'
-#city=input("Enter city name: ")
-#use above if a city other than calgary is desired
-
-sunny_in = [1,2,3,4,5]
-cloudy_in = [6,7,8,11,38]
-rainy_in = [12,13,14,18,39,40]
-thunder_in = [15,16,17,41,42]
-night_in = [33,34,35,36,37]
-snowy_in = [19,20,21,22,23,24,25,26,27,28,29,43,44]
-hot_in = [30]
-cold_in = [31]
-windy_in = [32]
-
-key=""
-def getLocation(countrycode,city):
-    search_address="http://dataservice.accuweather.com/locations/v1/cities/"+countrycode+"/search?apikey="+API+"&q="+city+"&details=true"
-    with urllib.request.urlopen(search_address) as search_address:
-        data=json.loads(search_address.read().decode())
-        location_key=data[0]['Key']
-        return(location_key)
-
 def currentweather(location_key):
     current="http://dataservice.accuweather.com/currentconditions/v1/"+str(location_key)+"?apikey=ddqK3u8d29p6wOlGm1YlIA1NUQH2rWoY"
     print(current)
@@ -160,7 +137,20 @@ def main():
     time_difference = dt.strptime(END_TIME, FMT) - dt.strptime(start_time, FMT)
     NOC = 50   #max of 50 daily api checks
     check_interval = time_difference.total_seconds()/NOC   #maximize how much data we get by utilizing all 50 checks throughout the day
-
+    sunny_in = [1,2,3,4,5]
+    cloudy_in = [6,7,8,11,38]
+    rainy_in = [12,13,14,18,39,40]
+    thunder_in = [15,16,17,41,42]
+    night_in = [33,34,35,36,37]
+    snowy_in = [19,20,21,22,23,24,25,26,27,28,29,43,44]
+    hot_in = [30]
+    cold_in = [31]
+    windy_in = [32]
+    
+    start_time = dt.strftime(dt.now(),'%X')     #when program is started
+    END_TIME = '22:00:00'   #arbitrary end time at 10pm
+    FMT = '%H:%M:%S'        #format of time in calculations
+    
     check_interval = 5  #delete when program is done
 
     while True:
