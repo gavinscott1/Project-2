@@ -21,10 +21,10 @@ def precipitation(drop_positions, weather):
     drop_position = drop_positions
     bg = (116,87,222)          #background colour
     rain_drop = (86,158,209)    #rain drop colour
-    snow_flake = (202,213,219)
+    snow_flake = (255,255,255)
     colour = (86,158,209)
-    cloud = (212,212,212)       #cloud colour
-    cloud_accent = (189,189,189)#cloud accent colour
+    cloud = (200,200,200)       #cloud colour
+    cloud_accent = (170,170,170)#cloud accent colour
     cloud_data = [              #sets initial colours of each triangle in list of lists 12 down by 23 across
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
@@ -66,8 +66,8 @@ def lightning(drop_positions):
     rain_drop = (86,158,209)    #rain drop colour
     drop_position = drop_positions         #list of lists for position of each drop
     lc = (245,232,49)           #lightning colour
-    cloud = (212,212,212)       #cloud colour
-    cloud_accent = (189,189,189)#cloud accent colour
+    cloud_accent = (200,200,200)       #cloud colour
+    cloud = (150,150,150)#cloud accent colour
     cloud_data = [              #sets initial colours of each triangle
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
@@ -86,7 +86,8 @@ def lightning(drop_positions):
 #def cloudy(weather):
 
 
-    rain_chance = random.randint(1,3)
+    rain_chance = random.randint(1,2)
+    rain_chance = 2
     lightning_chance = random.randint(1,6)
     cloud_df = pd.DataFrame(cloud_data)
     #generates new rain drop
@@ -105,8 +106,8 @@ def lightning(drop_positions):
     lightning_pattern = []
     if lightning_chance == 2:
         lightning_position = random.randint(5,17)
-        lightning_pattern.append([4,lightning_position])
-        height = 4
+        lightning_pattern.append([5,lightning_position])
+        height = 5
         while height < 11:
             if height == 4:
                 lightning_pattern.append([height+1,lightning_pattern[-1][1]])
@@ -185,6 +186,7 @@ def sunny(rays):
         return sunny_df
 
 def main():
+    NL.initalize()
     start_time = dt.strftime(dt.now(),'%X')     #when program is started
     END_TIME = '22:00:00'   #arbitrary end time at 10pm
     FMT = '%H:%M:%S'        #format of time in calculations
@@ -206,18 +208,16 @@ def main():
     END_TIME = '22:00:00'   #arbitrary end time at 10pm
     FMT = '%H:%M:%S'        #format of time in calculations
 
-    check_interval = 5  #delete when program is done
+    check_interval = 10  #delete when program is done
 
     while True:
         KEY = 52479 #for calgary
-        weather_icon = currentweather(KEY)
+        weather_icon = 12
         start = dt.strftime(dt.now(),'%X')
-        print(weather_icon)
         if weather_icon in rainy_in:
             while True:     #each while loop runs for set duration of time then the weather is checked again
                 current = dt.strftime(dt.now(),'%X')
                 delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
-                print(delta.total_seconds())
 
                 if delta.total_seconds() == 0 :
                     drop_position = []
@@ -226,14 +226,14 @@ def main():
 
                 data = precipitation(drop_positions=drop_position, weather='rain')
 
-                NL.send(data[1], random.randint(1,3))
+                NL.send(data[1])
+                time.sleep(0.35)
                 if delta.total_seconds() >= check_interval:
                     break
         elif weather_icon in snowy_in:
             while True:
                 current = dt.strftime(dt.now(),'%X')
                 delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
-                print(delta.total_seconds())
 
                 if delta.total_seconds() == 0:
                     drop_position = []
@@ -242,14 +242,14 @@ def main():
 
                 data = precipitation(drop_positions=drop_position, weather='snow')
 
-                NL.send(data[1], random.randint(1,3))
+                NL.send(data[1], random.randint(5,8))
+                time.sleep(0.55)
                 if delta.total_seconds() >= check_interval:
                     break
         elif weather_icon in thunder_in:
             while True:
                 current = dt.strftime(dt.now(),'%X')
                 delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
-                print(delta.total_seconds())
 
                 if delta.total_seconds() == 0:
                     drop_position = []
@@ -258,7 +258,8 @@ def main():
 
                 data = lightning(drop_positions=drop_position)
 
-                NL.send(data[1], random.randint(1,3))
+                NL.send(data[1])
+                time.sleep(0.55)
                 if delta.total_seconds() >= check_interval:
                     break
         elif weather_icon in cloudy_in:
@@ -271,12 +272,11 @@ def main():
             while True:
                 current = dt.strftime(dt.now(),'%X')
                 delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
-                print(delta.total_seconds())
                 data = sunny(rays=1)
-                simulator.show(data, random.randint(1,3))
+                NL.send(data, random.randint(1,3))
                 time.sleep(3)               #sets a timer of three seconds between images
                 data = sunny(rays=2)
-                simulator.show(data, random.randint(1,3))
+                NL.send(data, random.randint(1,3))
                 time.sleep(3)               #sets a timer of three seconds between images
                 if delta.total_seconds() >= check_interval:
                     break
