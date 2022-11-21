@@ -164,12 +164,9 @@ blueToRed = gradient((0,0,255), (255,0,0))
 #show(blueToRed, 50)
 
 #input jpg image and convert to pandas dataframe for show() function
+'''
 img = np.array(Image.open('cloudy.jpg').resize((23,12)))
 b = img.view([(f'f{i}',img.dtype) for i in range(img.shape[-1])])[...,0].astype('O')
 df = pd.DataFrame(b)
+'''
 
-#rainy background
-rainy_img = np.array(Image.open('cloudy.jpg').resize((23,12)))
-a = img.view([(f'f{i}',img.dtype) for i in range(img.shape[-1])])[...,0].astype('O')
-rainy_df = pd.DataFrame(a)
-drip_positions = []
