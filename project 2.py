@@ -129,6 +129,24 @@ def lightning(drop_positions):
         cloud_df.iloc[lightning_pattern[-i][0],lightning_pattern[-i][1]] = lc
     return [drop_position, cloud_df]
 
+def cloudy(weather):
+    cloud_accent = (189,189,189)#cloud accent colour
+    bg = (159,159,159)          #background colour    
+    cloud = (212,212,212)       #cloud colour
+    cloud_data = [              #sets initial colours of each triangle
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,bg,bg,bg,bg],
+        [bg,bg,bg,bg,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
+    ]
 def main():
     start_time = dt.strftime(dt.now(),'%X')     #when program is started
     END_TIME = '22:00:00'   #arbitrary end time at 10pm
@@ -146,11 +164,11 @@ def main():
     hot_in = [30]
     cold_in = [31]
     windy_in = [32]
-    
+
     start_time = dt.strftime(dt.now(),'%X')     #when program is started
     END_TIME = '22:00:00'   #arbitrary end time at 10pm
     FMT = '%H:%M:%S'        #format of time in calculations
-    
+
     check_interval = 5  #delete when program is done
 
     while True:
