@@ -85,7 +85,6 @@ def lightning(drop_positions):
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
     ]
 
-#def cloudy(weather):
 
 
     rain_chance = random.randint(1,2)
@@ -123,30 +122,79 @@ def lightning(drop_positions):
                 elif lightning_direction == 3:
                     lightning_pattern.append([height, (lightning_pattern[-1][1]+1)])
                     lightning_pattern.append([height+1,lightning_pattern[-1][1]])
-            height+=1
+            height += 1
     
     for i in range(len(lightning_pattern)):
         cloud_df.iloc[lightning_pattern[-i][0],lightning_pattern[-i][1]] = lc
     return [drop_position, cloud_df]
 
-def cloudy(weather):
+def cloudy(sky_position):
     cloud_accent = (189,189,189)#cloud accent colour
-    bg = (159,159,159)          #background colour    
-    cloud = (212,212,212)       #cloud colour
+    bg = (50, 120, 190)          #background colour    
+    cloud = (210,210,210)       #cloud colour
     cloud_data = [              #sets initial colours of each triangle
-        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
-        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
-        [bg,bg,bg,bg,bg,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,bg,bg,bg,bg,bg],
-        [bg,bg,bg,bg,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,bg,bg,bg,bg],
-        [bg,bg,bg,bg,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,bg,bg,bg,bg],
-        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
-        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
-        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
-        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
-        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
-        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
-        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
+        [cloud,cloud_accent,cloud,cloud_accent,cloud,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,cloud,cloud_accent],
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,bg,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud_accent,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [cloud,cloud,cloud_accent,cloud,cloud,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
     ]
+    if len(sky_position) == 0:
+        cloud_df = pd.DataFrame(cloud_data)
+    else:
+        cloud_df = sky_position
+
+    #Loop in charge of moving the top border cloud
+    for i in range(1):
+        end_colour1 = cloud_df.iloc[i][0]
+        end_colour2 = cloud_df.iloc[i][1]
+        for o in range(22):
+            cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]
+        cloud_df.iloc[i][22] = end_colour1
+        cloud_df.iloc[i][23] = end_colour2
+
+    #Loop in charge of moving the top cloud
+    for i in range(2,6):
+        end_colour1 = cloud_df.iloc[i][0]
+        end_colour2 = cloud_df.iloc[i][1]
+        for o in range(22):
+            cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]
+        cloud_df.iloc[i][22] = end_colour1
+        cloud_df.iloc[i][23] = end_colour2
+
+    #Loop in charge of moving the cloud in the middle
+    if not random.randint(0,3) == 1:
+        for i in range(7,10):
+            end_colour1 = cloud_df.iloc[i][0]
+            end_colour2 = cloud_df.iloc[i][1]
+            for o in range(22):
+                cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]
+            cloud_df.iloc[i][22] = end_colour1
+            cloud_df.iloc[i][23] = end_colour2
+
+    #Loop in charge of moving the bottom border cloud
+    if not random.randint(0,3) == 1:
+        for i in range(11,12):
+            end_colour1 = cloud_df.iloc[i][0]
+            end_colour2 = cloud_df.iloc[i][1]
+            for o in range(22):
+                cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]
+            cloud_df.iloc[i][22] = end_colour1
+            cloud_df.iloc[i][23] = end_colour2
+
+    return cloud_df
+
+
+
+
+
 
 def sunny(rays):
     bg = (77, 180, 227)           #background colour
@@ -188,7 +236,7 @@ def sunny(rays):
         return sunny_df
 
 def main():
-    NL.initalize()
+    #NL.initalize()
     start_time = dt.strftime(dt.now(),'%X')     #when program is started
     END_TIME = '22:00:00'   #arbitrary end time at 10pm
     FMT = '%H:%M:%S'        #format of time in calculations
@@ -209,12 +257,11 @@ def main():
     start_time = dt.strftime(dt.now(),'%X')     #when program is started
     END_TIME = '22:00:00'   #arbitrary end time at 10pm
     FMT = '%H:%M:%S'        #format of time in calculations
-
     check_interval = 10  #delete when program is done
 
     while True:
         KEY = 52479 #for calgary
-        weather_icon = 12
+        weather_icon = 6
         start = dt.strftime(dt.now(),'%X')
         if weather_icon in rainy_in:
             while True:     #each while loop runs for set duration of time then the weather is checked again
@@ -261,12 +308,27 @@ def main():
                 data = lightning(drop_positions=drop_position)
 
                 NL.send(data[1])
-                time.sleep(0.55)
+                #time.sleep(0.55)
                 if delta.total_seconds() >= check_interval:
                     break
         elif weather_icon in cloudy_in:
-            print('cloudy')
-            time.sleep(check_interval)
+            while True:
+                current = dt.strftime(dt.now(),'%X')
+                delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
+
+                if delta.total_seconds() == 0:
+                    sky_position = pd.DataFrame()
+                else:
+                    sky_position = data
+
+                data = cloudy(sky_position)
+                
+                NL.simSend(data.drop(columns=23))
+                time.sleep(0.55)
+                
+
+
+
         elif weather_icon in night_in:
             print('night')
             time.sleep(check_interval)
@@ -275,10 +337,10 @@ def main():
                 current = dt.strftime(dt.now(),'%X')
                 delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
                 data = sunny(rays=1)
-                NL.send(data, random.randint(1,3))
+                NL.simSend(data, random.randint(1,3))
                 time.sleep(3)               #sets a timer of three seconds between images
                 data = sunny(rays=2)
-                NL.send(data, random.randint(1,3))
+                NL.simSend(data, random.randint(1,3))
                 time.sleep(3)               #sets a timer of three seconds between images
                 if delta.total_seconds() >= check_interval:
                     break
