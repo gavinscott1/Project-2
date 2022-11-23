@@ -251,10 +251,6 @@ def main():
     night_in = [33,34,35,36,37]
     snowy_in = [19,20,21,22,23,24,25,26,27,28,29,43,44]
 
-    start_time = dt.strftime(dt.now(),'%X')     #when program is started
-    END_TIME = '22:00:00'                       #arbitrary end time at 10pm
-    FMT = '%H:%M:%S'                            #format of time in calculations
-
     check_interval = 10  #delete when program is done
 
     while True:
