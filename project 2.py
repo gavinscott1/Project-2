@@ -286,7 +286,7 @@ def main():
                 data = precipitation(drop_positions=drop_position, weather='snow')
 
                 NL.send(data[1], random.randint(5,8))
-                time.sleep(0.55)
+                time.sleep(0.35)
                 if delta.total_seconds() >= check_interval:
                     break
         elif weather_icon in thunder_in:
