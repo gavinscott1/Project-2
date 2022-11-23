@@ -127,6 +127,7 @@ def lightning(drop_positions):
         cloud_df.iloc[lightning_pattern[-i][0],lightning_pattern[-i][1]] = lc
     return [drop_position, cloud_df]
 
+#Creates dynamic moving clouds
 def cloudy(sky_position):
     cloud_accent = (189,189,189)#cloud accent colour
     bg = (50, 120, 190)          #background colour    
