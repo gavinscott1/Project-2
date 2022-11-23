@@ -236,7 +236,7 @@ def sunny(rays):
         return sunny_df
 
 def main():
-    #NL.initalize()
+    NL.initalize()
     start_time = dt.strftime(dt.now(),'%X')     #when program is started
     END_TIME = '22:00:00'                       #arbitrary end time at 10pm
     FMT = '%H:%M:%S'                            #format of time in calculations
@@ -306,7 +306,7 @@ def main():
                 data = lightning(drop_positions=drop_position)
 
                 NL.send(data[1])
-                #time.sleep(0.55)
+                time.sleep(0.55)
                 if delta.total_seconds() >= check_interval:
                     break
         elif weather_icon in cloudy_in:
@@ -321,8 +321,8 @@ def main():
 
                 data = cloudy(sky_position)
                 
-                NL.simSend(data.drop(columns=23))
-                time.sleep(0.55)
+                NL.send(data.drop(columns=23))
+                time.sleep(0.75)
                 
 
 
@@ -338,7 +338,7 @@ def main():
                 NL.send(data, random.randint(1,3))          #sends the data to the nanoleaf
                 time.sleep(3)               #sets a timer of three seconds between images
                 data = sunny(rays=2)
-                NL.simSend(data, random.randint(1,3))
+                NL.send(data, random.randint(1,3))
                 time.sleep(3)               #sets a timer of three seconds between images
                 if delta.total_seconds() >= check_interval:
                     break
