@@ -1,7 +1,6 @@
 import json     #accu weather data comes as json format so we need module to decode and change to a usable type
 import pandas as pd
 import urllib.request
-import simulator
 import random
 from datetime import datetime as dt
 import time
@@ -197,10 +196,10 @@ def cloudy(sky_position):
 
 
 def sunny(rays):
-    bg = (77, 180, 227)           #background colour
-    sun = (247, 207, 7)       #sun colour
+    bg = (77, 180, 227)             #background colour
+    sun = (247, 207, 7)             #sun colour
     sun_accent = (247, 163, 7)      #sun accent colour
-    if rays == 1:
+    if rays == 1:                   #has two options for rays so that the animation can go back and forth between them
         sunny_data = [              #sets initial colours of each triangle
             [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
             [bg,bg,bg,bg,bg,bg,sun,bg,bg,bg,bg,bg,bg,bg,sun,sun_accent,bg,bg,bg,bg,bg,bg,bg],
@@ -238,33 +237,31 @@ def sunny(rays):
 def main():
     #NL.initalize()
     start_time = dt.strftime(dt.now(),'%X')     #when program is started
-    END_TIME = '22:00:00'   #arbitrary end time at 10pm
-    FMT = '%H:%M:%S'        #format of time in calculations
+    END_TIME = '22:00:00'                       #arbitrary end time at 10pm
+    FMT = '%H:%M:%S'                            #format of time in calculations
 
     time_difference = dt.strptime(END_TIME, FMT) - dt.strptime(start_time, FMT)
-    NOC = 50   #max of 50 daily api checks
-    check_interval = time_difference.total_seconds()/NOC   #maximize how much data we get by utilizing all 50 checks throughout the day
-    sunny_in = [1,2,3,4,5]
+    NOC = 50                #max of 50 daily api checks (the accu weather service only works for 50 checks before it stops)
+    check_interval = time_difference.total_seconds()/NOC            #maximize how much data we get by utilizing all 50 checks throughout the day
+    sunny_in = [1,2,3,4,5,30,31,32]
     cloudy_in = [6,7,8,11,38]
     rainy_in = [12,13,14,18,39,40]
     thunder_in = [15,16,17,41,42]
     night_in = [33,34,35,36,37]
     snowy_in = [19,20,21,22,23,24,25,26,27,28,29,43,44]
-    hot_in = [30]
-    cold_in = [31]
-    windy_in = [32]
 
     start_time = dt.strftime(dt.now(),'%X')     #when program is started
-    END_TIME = '22:00:00'   #arbitrary end time at 10pm
-    FMT = '%H:%M:%S'        #format of time in calculations
+    END_TIME = '22:00:00'                       #arbitrary end time at 10pm
+    FMT = '%H:%M:%S'                            #format of time in calculations
+
     check_interval = 10  #delete when program is done
 
     while True:
-        KEY = 52479 #for calgary
+        KEY = 52479         #the key for calgary
         weather_icon = 6
         start = dt.strftime(dt.now(),'%X')
         if weather_icon in rainy_in:
-            while True:     #each while loop runs for set duration of time then the weather is checked again
+            while True:             #each while loop runs for set duration of time then the weather is checked again
                 current = dt.strftime(dt.now(),'%X')
                 delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
 
@@ -337,7 +334,7 @@ def main():
                 current = dt.strftime(dt.now(),'%X')
                 delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
                 data = sunny(rays=1)
-                NL.simSend(data, random.randint(1,3))
+                NL.send(data, random.randint(1,3))          #sends the data to the nanoleaf
                 time.sleep(3)               #sets a timer of three seconds between images
                 data = sunny(rays=2)
                 NL.simSend(data, random.randint(1,3))
