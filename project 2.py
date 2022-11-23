@@ -144,7 +144,7 @@ def cloudy(sky_position):
         [bg,bg,bg,bg,bg,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,cloud,bg,bg,bg,bg,bg,bg],
         [bg,bg,bg,bg,bg,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud_accent,bg,bg,bg,bg,bg,bg],
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
-        [cloud,cloud,cloud_accent,cloud,cloud,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
+        [cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
     ]
     if len(sky_position) == 0:
         cloud_df = pd.DataFrame(cloud_data)
