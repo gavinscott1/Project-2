@@ -270,7 +270,7 @@ def main():
                 data = precipitation(drop_positions=drop_position, weather='rain')
 
                 NL.send(data[1])
-                time.sleep(0.35)
+                time.sleep(0.55)
                 if delta.total_seconds() >= check_interval:
                     break
         elif weather_icon in snowy_in:
@@ -318,7 +318,7 @@ def main():
                 data = cloudy(sky_position)
                 
                 NL.send(data.drop(columns=23))
-                time.sleep(0.75)
+                time.sleep(1.2)
                 
 
 
