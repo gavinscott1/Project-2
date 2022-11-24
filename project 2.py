@@ -243,19 +243,19 @@ def night_time():
     accent= (245,217,113)    #moon accent colour
 
 
-    moon_data = [              #sets initial colours of each triangle (12 indexs, 23 columns)
-        [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null],
-        [null,null,null,null,bg,bg,accent,accent,moon,moon,moon,moon,moon,moon,moon,moon,moon,bg,bg,null,null,null,null],
-        [null,null,null,bg,bg,moon,moon,moon,moon,accent,moon,moon,accent,moon,moon,moon,moon,accent,bg,bg,null,null,null],
-        [null,null,bg,bg,moon,moon,moon,accent,bg,bg,bg,bg,bg,bg,bg,moon,moon,accent,bg,bg,bg,null,null],
-        [null,bg,bg,moon,moon,moon,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,moon,bg,bg,bg,bg,bg,null],
-        [bg,bg,moon,moon,moon,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
-        [bg,bg,moon,moon,moon,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
-        [null,bg,bg,moon,moon,moon,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,moon,bg,bg,bg,null],
-        [null,null,bg,bg,moon,moon,moon,accent,bg,bg,bg,bg,bg,bg,bg,bg,bg,moon,accent,bg,bg,null,null],
-        [null,null,null,bg,bg,moon,moon,moon,moon,moon,accent,moon,moon,moon,moon,moon,accent,moon,bg,bg,null,null,null],
-        [null,null,null,null,bg,bg,accent,accent,moon,moon,moon,moon,accent,moon,moon,moon,accent,bg,bg,null,null,null,null],
-        [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null]
+    moon_data = [              #sets initial colours of each triangle (12 indexs, 23 columns) adding two additional columns to be dropped (indices 23,24)
+                [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null,null,null],
+        [null,null,null,null,bg,bg,bg,bg,bg,bg,moon,accent,moon,moon,accent,bg,bg,bg,bg,null,null,null,null,null,null],
+        [null,null,null,bg,bg,bg,bg,moon,moon,accent,moon,moon,accent,moon,moon,moon,moon,accent,bg,bg,null,null,null,null,null],
+        [null,null,bg,bg,bg,bg,moon,accent,moon,accent,bg,bg,bg,bg,bg,moon,moon,accent,bg,bg,bg,null,null,null,null],
+        [null,bg,bg,bg,bg,moon,moon,accent,moon,bg,bg,bg,bg,bg,bg,bg,moon,bg,bg,bg,bg,bg,null,null,null],
+        [bg,bg,bg,bg,moon,moon,accent,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null],
+        [bg,bg,bg,bg,moon,moon,moon,accent,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null],
+        [null,bg,bg,bg,bg,moon,moon,accent,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,moon,bg,bg,bg,null,null,null],
+        [null,null,bg,bg,bg,bg,moon,accent,moon,accent,bg,bg,bg,bg,bg,bg,bg,moon,accent,bg,bg,null,null,null,null],
+        [null,null,null,bg,bg,bg,bg,moon,moon,moon,accent,moon,moon,moon,moon,moon,accent,moon,bg,bg,null,null,null,null,null],
+        [null,null,null,null,bg,bg,bg,bg,bg,bg,moon,moon,accent,moon,moon,bg,bg,bg,bg,null,null,null,null,null,null],
+        [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null,null,null]
     ]
     moon_df = pd.DataFrame(moon_data)   #makes it into a pandas dataframe
 
@@ -264,6 +264,19 @@ def night_time():
             if (moon_df.iat[index,column] == moon) or (moon_df.iat[index,column] == accent):
                 potential_colours = [moon, accent]
                 moon_df.iat[index,column] = potential_colours[random.randrange(len(potential_colours))]
+
+            if (moon_df.iat[index,column] == star) or (moon_df.iat[index,column] == bg):
+                potential_colours = [star, bg, bg, bg, bg] #gives star generation 1/5 chance
+                moon_df.iat[index,column] = potential_colours[random.randrange(len(potential_colours))]
+
+
+                if moon_df.iat[index,column] == star:
+                    if  (moon_df.iat[index,column - 1] == star) or (moon_df.iat[index,column - 2] == star) or (moon_df.iat[index - 1,column - 2] == star) or (moon_df.iat[index - 1,column - 1] == star) or (moon_df.iat[index - 1,column] == star) or (moon_df.iat[index -1 ,column + 1] == star) or (moon_df.iat[index -1,column +2] == star):
+                        moon_df.iat[index,column] = bg
+                    if  (moon_df.iat[index,column - 1] == moon) or (moon_df.iat[index,column - 2] == moon) or (moon_df.iat[index - 1,column - 2] == moon) or (moon_df.iat[index - 1,column - 1] == moon) or (moon_df.iat[index - 1,column] == moon) or (moon_df.iat[index -1 ,column + 1] == moon) or (moon_df.iat[index -1,column +2] == moon) or (moon_df.iat[index,column + 1] == moon):
+                        moon_df.iat[index,column] = bg
+                    if  (moon_df.iat[index,column - 1] == accent) or (moon_df.iat[index,column - 2] == accent) or (moon_df.iat[index - 1,column - 2] == accent) or (moon_df.iat[index - 1,column - 1] == accent) or (moon_df.iat[index - 1,column] == accent) or (moon_df.iat[index -1 ,column + 1] == accent) or (moon_df.iat[index -1,column +2] == accent)or (moon_df.iat[index,column + 1] == accent):
+                        moon_df.iat[index,column] = bg
     return moon_df
 
 
@@ -288,7 +301,7 @@ def main():
 
     while True:
         KEY = 52479         #the key for calgary
-        weather_icon = 6
+        weather_icon = 33
         start = dt.strftime(dt.now(),'%X')
         if weather_icon in rainy_in:
             while True:             #each while loop runs for set duration of time then the weather is checked again
