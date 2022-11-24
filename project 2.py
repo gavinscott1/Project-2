@@ -235,6 +235,39 @@ def sunny(rays):
         sunny_df = pd.DataFrame(sunny_data)
         return sunny_df
 
+def night_time():
+    null = (12, 20, 69) #using this vairable to show triangles out of the shape of the Nanoleaf helps for the dataframe below when I was designing
+    bg = (12, 20, 69) #night background colour
+    star = (250, 254, 250)  #star colour #FIXME
+    moon = (240,196,32) #moon main colour     
+    accent= (245,217,113)    #moon accent colour
+
+
+    moon_data = [              #sets initial colours of each triangle (12 indexs, 23 columns)
+        [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null],
+        [null,null,null,null,bg,bg,accent,accent,moon,moon,moon,moon,moon,moon,moon,moon,moon,bg,bg,null,null,null,null],
+        [null,null,null,bg,bg,moon,moon,moon,moon,accent,moon,moon,accent,moon,moon,moon,moon,accent,bg,bg,null,null,null],
+        [null,null,bg,bg,moon,moon,moon,accent,bg,bg,bg,bg,bg,bg,bg,moon,moon,accent,bg,bg,bg,null,null],
+        [null,bg,bg,moon,moon,moon,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,moon,bg,bg,bg,bg,bg,null],
+        [bg,bg,moon,moon,moon,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,moon,moon,moon,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [null,bg,bg,moon,moon,moon,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,moon,bg,bg,bg,null],
+        [null,null,bg,bg,moon,moon,moon,accent,bg,bg,bg,bg,bg,bg,bg,bg,bg,moon,accent,bg,bg,null,null],
+        [null,null,null,bg,bg,moon,moon,moon,moon,moon,accent,moon,moon,moon,moon,moon,accent,moon,bg,bg,null,null,null],
+        [null,null,null,null,bg,bg,accent,accent,moon,moon,moon,moon,accent,moon,moon,moon,accent,bg,bg,null,null,null,null],
+        [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null]
+    ]
+    moon_df = pd.DataFrame(moon_data)   #makes it into a pandas dataframe
+
+    for index in range(12):
+        for column in range(23):
+            if (moon_df.iat[index,column] == moon) or (moon_df.iat[index,column] == accent):
+                potential_colours = [moon, accent]
+                moon_df.iat[index,column] = potential_colours[random.randrange(len(potential_colours))]
+    return moon_df
+
+
+
 def main():
     NL.initalize()
     start_time = dt.strftime(dt.now(),'%X')     #when program is started
@@ -321,11 +354,16 @@ def main():
                 time.sleep(1.2)
                 
 
-
-
         elif weather_icon in night_in:
-            print('night')
-            time.sleep(check_interval)
+            while True:
+                current = dt.strftime(dt.now(),'%X')
+                delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
+                data = night_time()
+                NL.simSend(data, random.randint(1,3))          #sends the data to the nanoleaf
+                time.sleep(1)               #sets a timer of three seconds between images
+                if delta.total_seconds() >= check_interval:
+                    break
+
         else:
             while True:
                 current = dt.strftime(dt.now(),'%X')
@@ -338,5 +376,5 @@ def main():
                 time.sleep(3)               #sets a timer of three seconds between images
                 if delta.total_seconds() >= check_interval:
                     break
-
-main()
+if __name__ == '__main__':
+    main()
