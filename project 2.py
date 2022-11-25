@@ -317,7 +317,10 @@ def night_time():
 
                             elif (moon_df.iat[index - 1,column - 2] in moon_colours) or (moon_df.iat[index - 1,column - 1] in moon_colours) or (moon_df.iat[index - 1,column] in moon_colours) or (moon_df.iat[index - 1 ,column + 1] in moon_colours) or (moon_df.iat[index - 1,column +2] in moon_colours):
                                 moon_df.iat[index,column] = bg  #check to see if any of the five triangles directly above the star are either of the moon colours and changes it back to a background colour if it is the case
-                        
+                         
+                            elif (moon_df.iat[index - 1,column - 2] == star) or (moon_df.iat[index - 1,column - 1] == star) or (moon_df.iat[index - 1,column] == star) or (moon_df.iat[index -1 ,column + 1] == star) or (moon_df.iat[index -1,column +2] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if any of the five trianlges above it are already a star and changes it back to a background colour if it is the case
+
                         elif column == 0: #no need to check column 1 and 2 before 
 
                             if (moon_df.iat[index - 1,column] == star) or (moon_df.iat[index -1 ,column + 1] == star) or (moon_df.iat[index -1,column +2] == star):
@@ -501,7 +504,7 @@ def main():
                 current = dt.strftime(dt.now(),'%X')
                 delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
                 data = night_time()
-                NL.send(data, random.randint(1,3))          #sends the data to the nanoleaf
+                NL.simSend(data, random.randint(1,3))          #sends the data to the nanoleaf
                 time.sleep(1)               #sets a timer of three seconds between images
                 if delta.total_seconds() >= check_interval:
                     break
