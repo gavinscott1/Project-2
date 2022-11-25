@@ -243,42 +243,171 @@ def night_time():
     accent= (245,217,113)    #moon accent colour
 
 
-    moon_data = [              #sets initial colours of each triangle (12 indexs, 23 columns) adding two additional columns to be dropped (indices 23,24)
-                [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null,null,null],
-        [null,null,null,null,bg,bg,bg,bg,bg,bg,moon,accent,moon,moon,accent,bg,bg,bg,bg,null,null,null,null,null,null],
-        [null,null,null,bg,bg,bg,bg,moon,moon,accent,moon,moon,accent,moon,moon,moon,moon,accent,bg,bg,null,null,null,null,null],
-        [null,null,bg,bg,bg,bg,moon,accent,moon,accent,bg,bg,bg,bg,bg,moon,moon,accent,bg,bg,bg,null,null,null,null],
-        [null,bg,bg,bg,bg,moon,moon,accent,moon,bg,bg,bg,bg,bg,bg,bg,moon,bg,bg,bg,bg,bg,null,null,null],
-        [bg,bg,bg,bg,moon,moon,accent,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null],
-        [bg,bg,bg,bg,moon,moon,moon,accent,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null],
-        [null,bg,bg,bg,bg,moon,moon,accent,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,moon,bg,bg,bg,null,null,null],
-        [null,null,bg,bg,bg,bg,moon,accent,moon,accent,bg,bg,bg,bg,bg,bg,bg,moon,accent,bg,bg,null,null,null,null],
-        [null,null,null,bg,bg,bg,bg,moon,moon,moon,accent,moon,moon,moon,moon,moon,accent,moon,bg,bg,null,null,null,null,null],
-        [null,null,null,null,bg,bg,bg,bg,bg,bg,moon,moon,accent,moon,moon,bg,bg,bg,bg,null,null,null,null,null,null],
-        [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null,null,null]
+    moon_data = [              #sets initial colours of each triangle (12 indexs, 23 columns) adding two additional columns to the end to allow the df to check first two columns for star positioning below
+                [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null],
+        [null,null,null,null,bg,bg,bg,bg,bg,bg,moon,accent,moon,moon,accent,bg,bg,bg,bg,null,null,null,null],
+        [null,null,null,bg,bg,bg,bg,moon,moon,accent,moon,moon,accent,moon,moon,moon,moon,accent,bg,bg,null,null,null],
+        [null,null,bg,bg,bg,bg,moon,accent,moon,accent,bg,bg,bg,bg,bg,moon,moon,accent,bg,bg,bg,null,null],
+        [null,bg,bg,bg,bg,moon,moon,accent,moon,bg,bg,bg,bg,bg,bg,bg,moon,bg,bg,bg,bg,bg,null],
+        [bg,bg,bg,bg,moon,moon,accent,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [bg,bg,bg,bg,moon,moon,moon,accent,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
+        [null,bg,bg,bg,bg,moon,moon,accent,moon,bg,bg,bg,bg,bg,bg,bg,bg,bg,moon,bg,bg,bg,null],
+        [null,null,bg,bg,bg,bg,moon,accent,moon,accent,bg,bg,bg,bg,bg,bg,bg,moon,accent,bg,bg,null,null],
+        [null,null,null,bg,bg,bg,bg,moon,moon,moon,accent,moon,moon,moon,moon,moon,accent,moon,bg,bg,null,null,null],
+        [null,null,null,null,bg,bg,bg,bg,bg,bg,moon,moon,accent,moon,moon,bg,bg,bg,bg,null,null,null,null],
+        [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null]
     ]
     moon_df = pd.DataFrame(moon_data)   #makes it into a pandas dataframe
 
     for index in range(12):
         for column in range(23):
-            if (moon_df.iat[index,column] == moon) or (moon_df.iat[index,column] == accent):
+            
+            moon_colours = [moon, accent]
+
+            if (moon_df.iat[index,column] in moon_colours): #changes the colours of moon spaces between the accent and moon colour randomly creating a twinkle effect
                 potential_colours = [moon, accent]
                 moon_df.iat[index,column] = potential_colours[random.randrange(len(potential_colours))]
 
-            if (moon_df.iat[index,column] == star) or (moon_df.iat[index,column] == bg):
+            if (moon_df.iat[index,column] == bg):    #randomly changes the colour of background to either be a star or stay as background to create dynamic glimmeirng start
                 potential_colours = [star, bg, bg, bg, bg] #gives star generation 1/5 chance
                 moon_df.iat[index,column] = potential_colours[random.randrange(len(potential_colours))]
 
 
                 if moon_df.iat[index,column] == star:
-                    if  (moon_df.iat[index,column - 1] == star) or (moon_df.iat[index,column - 2] == star) or (moon_df.iat[index - 1,column - 2] == star) or (moon_df.iat[index - 1,column - 1] == star) or (moon_df.iat[index - 1,column] == star) or (moon_df.iat[index -1 ,column + 1] == star) or (moon_df.iat[index -1,column +2] == star):
-                        moon_df.iat[index,column] = bg
-                    if  (moon_df.iat[index,column - 1] == moon) or (moon_df.iat[index,column - 2] == moon) or (moon_df.iat[index - 1,column - 2] == moon) or (moon_df.iat[index - 1,column - 1] == moon) or (moon_df.iat[index - 1,column] == moon) or (moon_df.iat[index -1 ,column + 1] == moon) or (moon_df.iat[index -1,column +2] == moon) or (moon_df.iat[index,column + 1] == moon):
-                        moon_df.iat[index,column] = bg
-                    if  (moon_df.iat[index,column - 1] == accent) or (moon_df.iat[index,column - 2] == accent) or (moon_df.iat[index - 1,column - 2] == accent) or (moon_df.iat[index - 1,column - 1] == accent) or (moon_df.iat[index - 1,column] == accent) or (moon_df.iat[index -1 ,column + 1] == accent) or (moon_df.iat[index -1,column +2] == accent)or (moon_df.iat[index,column + 1] == accent):
-                        moon_df.iat[index,column] = bg
-    return moon_df
+                #tracking the star placement to ensure they don't generate too close to the moon or each other
 
+                    if (index == 0) and (column == 0): 
+                        continue 
+
+                    elif (index == 0) and (column == 1):
+                        continue
+
+                    elif (index == 0) and (column == 21):
+                        continue
+
+                    elif (index == 0) and (column == 22):
+                        continue
+
+                    elif (index == 11) and (column == 0):
+                        continue
+
+                    elif (index == 11) and (column == 1):
+                        continue
+                    
+                    elif (index == 11) and (column == 21):
+                        continue 
+                
+                    elif (index == 11) and (column == 22):
+                        continue
+
+                    else:
+
+                        if index == 0: #No need to check above (star or moon) or no need to check for moon on same row
+                            
+                            if  (moon_df.iat[index,column - 1] == star) or (moon_df.iat[index,column - 2] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if either of the two triangles before it are already a star (no need to check after as it runs line by line) and changes it back to a background colour if it is the case (not worried about the edge given its null at both ends)
+
+                            elif (moon_df.iat[index + 1,column - 2] in moon_colours) or (moon_df.iat[index + 1,column - 1] in moon_colours) or (moon_df.iat[index + 1,column] in moon_colours) or (moon_df.iat[index + 1 ,column + 1] in moon_colours) or (moon_df.iat[index + 1,column +2] in moon_colours):
+                                moon_df.iat[index,column] = bg  #check to see if any of the five triangles directly below the star are either of the moon colours and changes it back to a background colour if it is the case
+
+                        elif index == 11: #No need to check for moon below or moon on same index at all 
+                            
+                            if  (moon_df.iat[index,column - 1] == star) or (moon_df.iat[index,column - 2] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if either of the two triangles before it are already a star (no need to check after as it runs line by line) and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index - 1,column - 2] in moon_colours) or (moon_df.iat[index - 1,column - 1] in moon_colours) or (moon_df.iat[index - 1,column] in moon_colours) or (moon_df.iat[index - 1 ,column + 1] in moon_colours) or (moon_df.iat[index - 1,column +2] in moon_colours):
+                                moon_df.iat[index,column] = bg  #check to see if any of the five triangles directly above the star are either of the moon colours and changes it back to a background colour if it is the case
+                        
+                        elif column == 0: #no need to check column 1 and 2 before 
+
+                            if (moon_df.iat[index - 1,column] == star) or (moon_df.iat[index -1 ,column + 1] == star) or (moon_df.iat[index -1,column +2] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if any of the three trianlges above it (above and 2 columns to the right) are already a star and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index - 1,column] in moon_colours) or (moon_df.iat[index -1 ,column + 1] in moon_colours) or (moon_df.iat[index -1,column +2] in moon_colours):
+                                moon_df.iat[index,column] = bg #checks to see if any of the 3 triangles above it are moon coloured and changes it back to a background colour if it is the case (no need to check column -1 or -2)
+
+                            elif (moon_df.iat[index + 1,column] in moon_colours) or (moon_df.iat[index + 1 ,column + 1] in moon_colours) or (moon_df.iat[index + 1,column +2] in moon_colours):
+                                moon_df.iat[index,column] = bg #check to see if any of the 3 triangles directly below the star are the moon colour and changes it back to a background colour if it is the case (no need to check column -1 or -2)
+
+                            elif (moon_df.iat[index,column + 1] in moon_colours) or (moon_df.iat[index,column + 2] in moon_colours):
+                                moon_df.iat[index,column] = bg  #checks to see if any of the two triangles past the star are a moon coloured and changes it back to a background colour if it is the case
+
+                        elif column == 1: #no need to check 2 before (only 1)
+                            if  (moon_df.iat[index,column - 1] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if either of the one triangles before it are already a star (no need to check after as it runs line by line) and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index - 1,column - 1] == star) or (moon_df.iat[index - 1,column] == star) or (moon_df.iat[index -1 ,column + 1] == star) or (moon_df.iat[index -1,column +2] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if any of the four trianlges above it (1 column to the left, above it, and 2 columns to the right) are already a star and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index - 1,column - 1] in moon_colours) or (moon_df.iat[index - 1,column] in moon_colours) or (moon_df.iat[index -1 ,column + 1] in moon_colours) or (moon_df.iat[index -1,column +2] in moon_colours):
+                                moon_df.iat[index,column] = bg  #checks to see if any of the four triangles above it are moon coloured and changes it back to a background colour if it is the case (no need to do column - 2)
+
+                            elif (moon_df.iat[index + 1,column - 1] in moon_colours) or (moon_df.iat[index + 1,column] in moon_colours) or (moon_df.iat[index + 1 ,column + 1] in moon_colours) or (moon_df.iat[index + 1,column +2] in moon_colours):
+                                moon_df.iat[index,column] = bg #check to see if any of the four triangles directly below the star are the moon colour and changes it back to a background colour if it is the case (no need to do column - 2)
+
+                            elif (moon_df.iat[index,column + 1] in moon_colours) or (moon_df.iat[index,column + 2] in moon_colours):
+                                moon_df.iat[index,column] = bg  #checks to see if any of the two triangles past the star are a moon coloured and changes it back to a background colour if it is the case
+
+                        elif column == 21: #no need to check moon 2 past it (only one past it)
+
+                            if  (moon_df.iat[index,column - 1] == star) or (moon_df.iat[index,column - 2] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if either of the two triangles before it are already a star (no need to check after as it runs line by line) and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index - 1,column - 2] == star) or (moon_df.iat[index - 1,column - 1] == star) or (moon_df.iat[index - 1,column] == star) or (moon_df.iat[index -1 ,column + 1] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if any of the four trianlges above it are already a star and changes it back to a background colour if it is the case
+
+                            elif  (moon_df.iat[index,column - 1] in moon_colours) or (moon_df.iat[index,column - 2] in moon_colours):
+                                moon_df.iat[index,column] = bg #checks to see if either of the two trianges before it are moon coloured and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index,column + 1] in moon_colours):
+                                moon_df.iat[index,column] = bg  #checks to see if the one triangle past the star are a moon coloured and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index - 1,column - 2] in moon_colours) or (moon_df.iat[index - 1,column - 1] in moon_colours) or (moon_df.iat[index - 1,column] in moon_colours) or (moon_df.iat[index -1 ,column + 1] in moon_colours):
+                                moon_df.iat[index,column] = bg #checks to see if any of the 4 triangles (not farthest right) above it are moon coloured and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index + 1,column - 2] in moon_colours) or (moon_df.iat[index + 1,column - 1] in moon_colours) or (moon_df.iat[index + 1,column] in moon_colours) or (moon_df.iat[index + 1 ,column + 1] in moon_colours):
+                                moon_df.iat[index,column] = bg #check to see if any of the 4 triangles (not farthest right) directly below the star are the moon colour and changes it back to a background colour if it is the case
+
+                        elif column == 22: #no need to check moon past it at all
+                            
+                            if  (moon_df.iat[index,column - 1] == star) or (moon_df.iat[index,column - 2] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if either of the two triangles before it are already a star (no need to check after as it runs line by line) and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index - 1,column - 2] == star) or (moon_df.iat[index - 1,column - 1] == star) or (moon_df.iat[index - 1,column] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if any of the three trianlges above it are already a star and changes it back to a background colour if it is the case
+
+                            elif  (moon_df.iat[index,column - 1] in moon_colours) or (moon_df.iat[index,column - 2] in moon_colours):
+                                moon_df.iat[index,column] = bg #checks to see if either of the two trianges before it are moon coloured and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index - 1,column - 2] in moon_colours) or (moon_df.iat[index - 1,column - 1] in moon_colours) or (moon_df.iat[index - 1,column] in moon_colours):
+                                moon_df.iat[index,column] = bg #checks to see if any of the 3 triangles (not the 2 farthest right) above it are moon coloured and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index + 1,column - 2] in moon_colours) or (moon_df.iat[index + 1,column - 1] in moon_colours) or (moon_df.iat[index + 1,column] in moon_colours):
+                                moon_df.iat[index,column] = bg #check to see if any of the 4 triangles (not the 2 farthest right) directly below the star are the moon colour and changes it back to a background colour if it is the case
+
+                        else: #any non corcern of df index and column
+
+                            #only need these two for stars no need to check after the star or below as not generated yet
+                            if  (moon_df.iat[index,column - 1] == star) or (moon_df.iat[index,column - 2] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if either of the two triangles before it are already a star (no need to check after as it runs line by line) and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index - 1,column - 2] == star) or (moon_df.iat[index - 1,column - 1] == star) or (moon_df.iat[index - 1,column] == star) or (moon_df.iat[index -1 ,column + 1] == star) or (moon_df.iat[index -1,column +2] == star):
+                                moon_df.iat[index,column] = bg  #checks to see if any of the five trianlges above it are already a star and changes it back to a background colour if it is the case
+
+
+                            elif  (moon_df.iat[index,column - 1] in moon_colours) or (moon_df.iat[index,column - 2] in moon_colours):
+                                moon_df.iat[index,column] = bg #checks to see if either of the two trianges before it are moon coloured and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index,column + 1] in moon_colours) or (moon_df.iat[index,column + 2] in moon_colours):
+                                moon_df.iat[index,column] = bg  #checks to see if any of the two triangles past the star are a moon coloured and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index - 1,column - 2] in moon_colours) or (moon_df.iat[index - 1,column - 1] in moon_colours) or (moon_df.iat[index - 1,column] in moon_colours) or (moon_df.iat[index -1 ,column + 1] in moon_colours) or (moon_df.iat[index -1,column +2] in moon_colours):
+                                moon_df.iat[index,column] = bg #checks to see if any of the 5 triangles above it are moon coloured and changes it back to a background colour if it is the case
+
+                            elif (moon_df.iat[index + 1,column - 2] in moon_colours) or (moon_df.iat[index + 1,column - 1] in moon_colours) or (moon_df.iat[index + 1,column] in moon_colours) or (moon_df.iat[index + 1 ,column + 1] in moon_colours) or (moon_df.iat[index + 1,column +2] in moon_colours):
+                                moon_df.iat[index,column] = bg #check to see if any of the five triangles directly below the star are the moon colour and changes it back to a background colour if it is the case
+
+    return moon_df
 
 
 def main():
@@ -372,7 +501,7 @@ def main():
                 current = dt.strftime(dt.now(),'%X')
                 delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
                 data = night_time()
-                NL.simSend(data, random.randint(1,3))          #sends the data to the nanoleaf
+                NL.send(data, random.randint(1,3))          #sends the data to the nanoleaf
                 time.sleep(1)               #sets a timer of three seconds between images
                 if delta.total_seconds() >= check_interval:
                     break
