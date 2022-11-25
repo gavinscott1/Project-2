@@ -5,7 +5,7 @@ import random
 from datetime import datetime as dt
 import time
 import UCNanoleaf as NL
-
+#Project By; Tanner O., Morgan H., Gavin S., Reid M.
 
 
 def currentweather(location_key):
