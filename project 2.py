@@ -193,6 +193,19 @@ def cloudy(sky_position):
     return cloud_df
 
 def sunny(rays):
+    """
+    Creates an animation of a dancing sun for the sunny weather category.
+
+    Parameters
+    ----------
+    rays: int
+        determines the ray pattern that will be shown
+        
+    Returns
+    ----------
+    sunny_df : array
+        a sun dataframe
+    """
     bg = (77, 180, 227)             #background colour
     sun = (247, 207, 7)             #sun colour
     sun_accent = (247, 163, 7)      #sun accent colour
