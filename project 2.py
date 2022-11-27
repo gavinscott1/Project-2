@@ -5,7 +5,6 @@ import random
 from datetime import datetime as dt
 import time
 import UCNanoleaf as NL
-#THIS IS REID's COMMIT
 
 
 def currentweather(location_key):
