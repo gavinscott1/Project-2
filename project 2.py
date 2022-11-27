@@ -128,12 +128,20 @@ def lightning(drop_positions):
         cloud_df.iloc[lightning_pattern[-i][0],lightning_pattern[-i][1]] = lc
     return [drop_position, cloud_df]
 
-#Creates dynamic moving clouds
 def cloudy(sky_position):
-    cloud_accent = (189,189,189)#cloud accent colour
-    bg = (50, 120, 190)          #background colour    
-    cloud = (210,210,210)       #cloud colour
-    cloud_data = [              #sets initial colours of each triangle
+    '''
+    Function that creates a dynamic cloud animation
+
+    Arguments:
+    sky_position(Dataframe): Position values for the sky and clouds that is currently displayed on the screen.
+
+    Returns:
+    cloud_df(Dataframe): Position Values for the sky and clouds to be displayed on the screen next.
+    '''
+    cloud_accent = (189,189,189)    #cloud accent colour
+    bg = (50, 120, 190)             #background colour    
+    cloud = (210,210,210)           #cloud colour
+    cloud_data = [                  # Size: 12x24 .Sets initial colours of each triangle. Dataframe for the first time the function is used
         [cloud,cloud_accent,cloud,cloud_accent,cloud,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,cloud,cloud_accent],
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
         [bg,bg,bg,bg,bg,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,bg,bg,bg,bg,bg,bg],
@@ -147,46 +155,46 @@ def cloudy(sky_position):
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg],
         [cloud,cloud,cloud_accent,cloud,cloud,cloud,cloud,cloud_accent,cloud,cloud,cloud,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
     ]
-    if len(sky_position) == 0:
+    if len(sky_position) == 0:      #Creates cloud dataframe from cloud_data if the argument is empty.
         cloud_df = pd.DataFrame(cloud_data)
     else:
-        cloud_df = sky_position
+        cloud_df = sky_position     #Uses passed in dataframe if it contains values.
 
     #Loop in charge of moving the top border cloud
     for i in range(1):
-        end_colour1 = cloud_df.iloc[i][0]
+        end_colour1 = cloud_df.iloc[i][0]   #Takes 2 values at the end of the dataframe and moves them to the start.
         end_colour2 = cloud_df.iloc[i][1]
         for o in range(22):
-            cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]
+            cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]   #Moves all values in the dataframe over by 2 positions.
         cloud_df.iloc[i][22] = end_colour1
         cloud_df.iloc[i][23] = end_colour2
 
     #Loop in charge of moving the top cloud
     for i in range(2,6):
-        end_colour1 = cloud_df.iloc[i][0]
+        end_colour1 = cloud_df.iloc[i][0]   #Takes 2 values at the end of the dataframe and moves them to the start.
         end_colour2 = cloud_df.iloc[i][1]
         for o in range(22):
-            cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]
+            cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]   #Moves all values in the dataframe over by 2 positions.
         cloud_df.iloc[i][22] = end_colour1
         cloud_df.iloc[i][23] = end_colour2
 
     #Loop in charge of moving the cloud in the middle
-    if not random.randint(0,3) == 1:
+    if random.randint(0,3) != 1:
         for i in range(7,10):
-            end_colour1 = cloud_df.iloc[i][0]
+            end_colour1 = cloud_df.iloc[i][0]   #Takes 2 values at the end of the dataframe and moves them to the start.
             end_colour2 = cloud_df.iloc[i][1]
             for o in range(22):
-                cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]
+                cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]   #Moves all values in the dataframe over by 2 positions.
             cloud_df.iloc[i][22] = end_colour1
             cloud_df.iloc[i][23] = end_colour2
 
     #Loop in charge of moving the bottom border cloud
-    if not random.randint(0,3) == 1:
+    if random.randint(0,3) != 1:
         for i in range(11,12):
-            end_colour1 = cloud_df.iloc[i][0]
+            end_colour1 = cloud_df.iloc[i][0]   #Takes 2 values at the end of the dataframe and moves them to the start.
             end_colour2 = cloud_df.iloc[i][1]
             for o in range(22):
-                cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]
+                cloud_df.iloc[i][o]=cloud_df.iloc[i][o+2]   #Moves all values in the dataframe over by 2 positions.
             cloud_df.iloc[i][22] = end_colour1
             cloud_df.iloc[i][23] = end_colour2
 
