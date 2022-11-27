@@ -246,7 +246,7 @@ def sunny(rays):
 def night_time():
     null = (12, 20, 69) #using this vairable to show triangles out of the shape of the Nanoleaf helps for the dataframe below when I was designing
     bg = (12, 20, 69) #night background colour
-    star = (250, 254, 250)  #star colour #FIXME
+    star = (250, 254, 250)  #star colour
     moon = (240,196,32) #moon main colour     
     accent= (245,217,113)    #moon accent colour
 
