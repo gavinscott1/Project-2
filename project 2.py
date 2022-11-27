@@ -1,8 +1,8 @@
 #Project 2: Nanoleaf Display
 #Gavin Scott UCID: 30143231
-#Tanner Oseen UCID: 
-#Morgan Hendry UCID: 
-#Reid Moline UCID: 
+#Tanner Oseen UCID: 30145962
+#Morgan Hendry UCID: 30140556
+#Reid Moline UCID: 30160440
 
 import json     #accu weather data comes as json format so we need module to decode and change to a usable type
 import pandas as pd
