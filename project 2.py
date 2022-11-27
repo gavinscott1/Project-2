@@ -246,6 +246,15 @@ def sunny(rays):
         return sunny_df
 
 def night_time():
+    '''
+    Creates an image of a moon with randomly placed colour differences in the moon and randomly generated stars around the moon that can be looped over to create a twinkling effect
+    
+    Parameters: None
+
+    Returns:
+    moon_df: a pandas Dataframe object that is made up of 12 rows and 23 columns with RGB values to specify the colour of each panel in the Nanoleaf
+    '''
+
     null = (12, 20, 69) #using this variable to show triangles out of the shape of the Nanoleaf helps for the dataframe below when I was designing
     bg = (12, 20, 69) #night background colour
     star = (250, 254, 250)  #star colour
@@ -283,7 +292,7 @@ def night_time():
                 if moon_df.iat[index,column] == star:
                 #tracking the star placement to ensure they don't generate too close to the moon or each other
 
-                    if (index == 0) and (column == 0): 
+                    if (index == 0) and (column == 0):  #doesn't check if it is the edges (fixes indexing issues)
                         continue 
 
                     elif (index == 0) and (column == 1):
