@@ -440,7 +440,7 @@ def main():
 
     while True:
         KEY = 52479         #the key for calgary
-        weather_icon = 33
+        weather_icon = 6
         start = dt.strftime(dt.now(),'%X')
         if weather_icon in rainy_in:
             while True:             #each while loop runs for set duration of time then the weather is checked again
