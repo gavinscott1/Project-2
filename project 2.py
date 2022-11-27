@@ -82,8 +82,6 @@ def lightning(drop_positions):
         [bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg]
     ]
 
-
-
     rain_chance = random.randint(1,2)
     rain_chance = 2
     lightning_chance = random.randint(1,6)
@@ -127,7 +125,7 @@ def lightning(drop_positions):
 
 def cloudy(sky_position):
     '''
-    Function that creates a dynamic cloud animation
+    Function that creates a dynamic cloud animation.
 
     Arguments:
     sky_position(Dataframe): Position values for the sky and clouds that is currently displayed on the screen.
@@ -197,12 +195,18 @@ def cloudy(sky_position):
 
     return cloud_df
 
-
-
-
-
-
 def sunny(rays):
+    """
+    Creates an animation of a dancing sun for the sunny weather category.
+
+    Arguments:
+    rays: int
+        determines the ray pattern that will be shown
+        
+    Returns:
+    sunny_df : array
+        a sun dataframe
+    """
     bg = (77, 180, 227)             #background colour
     sun = (247, 207, 7)             #sun colour
     sun_accent = (247, 163, 7)      #sun accent colour
@@ -248,7 +252,6 @@ def night_time():
     moon = (240,196,32) #moon main colour     
     accent= (245,217,113)    #moon accent colour
 
-
     moon_data = [              #sets initial colours of each triangle (12 indexs, 23 columns) adding two additional columns to the end to allow the df to check first two columns for star positioning below
                 [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null],
         [null,null,null,null,bg,bg,bg,bg,bg,bg,moon,accent,moon,moon,accent,bg,bg,bg,bg,null,null,null,null],
@@ -267,7 +270,6 @@ def night_time():
 
     for index in range(12):
         for column in range(23):
-            
             moon_colours = [moon, accent]
 
             if (moon_df.iat[index,column] in moon_colours): #changes the colours of moon spaces between the accent and moon colour randomly creating a twinkle effect
@@ -277,7 +279,6 @@ def night_time():
             if (moon_df.iat[index,column] == bg):    #randomly changes the colour of background to either be a star or stay as background to create dynamic glimmeirng start
                 potential_colours = [star, bg, bg, bg, bg] #gives star generation 1/5 chance
                 moon_df.iat[index,column] = potential_colours[random.randrange(len(potential_colours))]
-
 
                 if moon_df.iat[index,column] == star:
                 #tracking the star placement to ensure they don't generate too close to the moon or each other
@@ -415,9 +416,7 @@ def night_time():
 
                             elif (moon_df.iat[index + 1,column - 2] in moon_colours) or (moon_df.iat[index + 1,column - 1] in moon_colours) or (moon_df.iat[index + 1,column] in moon_colours) or (moon_df.iat[index + 1 ,column + 1] in moon_colours) or (moon_df.iat[index + 1,column +2] in moon_colours):
                                 moon_df.iat[index,column] = bg #check to see if any of the five triangles directly below the star are the moon colour and changes it back to a background colour if it is the case
-
     return moon_df
-
 
 def main():
     NL.initalize()
@@ -435,12 +434,11 @@ def main():
     night_in = [33,34,35,36,37]
     snowy_in = [19,20,21,22,23,24,25,26,27,28,29,43,44]
 
-    check_interval = 10  #delete when program is done
-
     while True:
         KEY = 52479         #the key for calgary
-        weather_icon = 33
+        weather_icon = 33   '''Tanner plz fix this'''
         start = dt.strftime(dt.now(),'%X')
+    
         if weather_icon in rainy_in:
             while True:             #each while loop runs for set duration of time then the weather is checked again
                 current = dt.strftime(dt.now(),'%X')
