@@ -246,7 +246,7 @@ def sunny(rays):
         return sunny_df
 
 def night_time():
-    null = (12, 20, 69) #using this vairable to show triangles out of the shape of the Nanoleaf helps for the dataframe below when I was designing
+    null = (12, 20, 69) #using this variable to show triangles out of the shape of the Nanoleaf helps for the dataframe below when I was designing
     bg = (12, 20, 69) #night background colour
     star = (250, 254, 250)  #star colour
     moon = (240,196,32) #moon main colour     
@@ -436,7 +436,7 @@ def main():
 
     while True:
         KEY = 52479         #the key for calgary
-        weather_icon = 33   '''Tanner plz fix this'''
+        weather_icon = 33   #Tanner plz fix this****
         start = dt.strftime(dt.now(),'%X')
     
         if weather_icon in rainy_in:
