@@ -252,7 +252,7 @@ def night_time():
     moon = (240,196,32) #moon main colour     
     accent= (245,217,113)    #moon accent colour
 
-    moon_data = [              #sets initial colours of each triangle (12 indexs, 23 columns) adding two additional columns to the end to allow the df to check first two columns for star positioning below
+    moon_data = [              #sets initial colours of each triangle (12 indexs, 23 columns)
                 [null,null,null,null,null,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,bg,null,null,null,null,null],
         [null,null,null,null,bg,bg,bg,bg,bg,bg,moon,accent,moon,moon,accent,bg,bg,bg,bg,null,null,null,null],
         [null,null,null,bg,bg,bg,bg,moon,moon,accent,moon,moon,accent,moon,moon,moon,moon,accent,bg,bg,null,null,null],
