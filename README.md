@@ -2,4 +2,4 @@
 
 ## Running the code
 
-Put "simulator.py", "UCNanoleaf.py", and "project2.py" in the same folder and run "project 2.py" on the nanoleaf display.
+Put "simulator.py", "UCNanoleaf.py", and "main.py" in the same folder and run "main.py" on the nanoleaf display.
