@@ -1,3 +1,7 @@
+#Project 2: Nanoleaf Display
+#Gavin Scott UCID: 30143231
+
+
 import json     #accu weather data comes as json format so we need module to decode and change to a usable type
 import pandas as pd
 import urllib.request
@@ -8,7 +12,6 @@ import UCNanoleaf as NL
 
 def currentweather(location_key):
     current="http://dataservice.accuweather.com/currentconditions/v1/"+str(location_key)+"?apikey=ddqK3u8d29p6wOlGm1YlIA1NUQH2rWoY"
-    print(current)
     with urllib.request.urlopen(current) as current:
         data=json.loads(current.read().decode())
     
@@ -445,9 +448,8 @@ def main():
 
     while True:
         KEY = 52479         #the key for calgary
-        weather_icon = 33   #Tanner plz fix this****
+        weather_icon = currentweather(KEY)   #Tanner plz fix this****
         start = dt.strftime(dt.now(),'%X')
-    
         if weather_icon in rainy_in:
             while True:             #each while loop runs for set duration of time then the weather is checked again
                 current = dt.strftime(dt.now(),'%X')
