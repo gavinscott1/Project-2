@@ -512,7 +512,7 @@ def main():
                 current = dt.strftime(dt.now(),'%X')
                 delta = dt.strptime(current, FMT) - dt.strptime(start, FMT)
                 data = night_time()
-                NL.simSend(data, random.randint(1,3))          #sends the data to the nanoleaf
+                NL.send(data, random.randint(1,3))          #sends the data to the nanoleaf
                 time.sleep(1)               #sets a timer of three seconds between images
                 if delta.total_seconds() >= check_interval:
                     break
