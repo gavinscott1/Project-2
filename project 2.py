@@ -7,6 +7,7 @@ import time
 import UCNanoleaf as NL
 #Project By; Tanner O., Morgan H., Gavin S., Reid M.
 
+#ADDING THIS COMMENT TO CHANGE THE CODE FOR GITHUB
 
 def currentweather(location_key):
     current="http://dataservice.accuweather.com/currentconditions/v1/"+str(location_key)+"?apikey=ddqK3u8d29p6wOlGm1YlIA1NUQH2rWoY"
