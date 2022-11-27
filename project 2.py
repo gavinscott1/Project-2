@@ -5,7 +5,6 @@ import random
 from datetime import datetime as dt
 import time
 import UCNanoleaf as NL
-#If you see this my push worked
 
 def currentweather(location_key):
     current="http://dataservice.accuweather.com/currentconditions/v1/"+str(location_key)+"?apikey=ddqK3u8d29p6wOlGm1YlIA1NUQH2rWoY"
